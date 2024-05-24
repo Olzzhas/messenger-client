@@ -13,7 +13,7 @@ function App() {
       // Добавьте свои данные переписок
       {
          id: 1,
-         name: 'Maksat',
+         name: 'Maksat Baikadamov',
          message: 'Have you been studying for exams?',
          time: '10:36 PM',
          active: true,

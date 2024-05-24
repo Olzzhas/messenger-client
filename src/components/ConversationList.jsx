@@ -2,7 +2,7 @@ import React from 'react';
 import ConversationItem from './ConversationItem';
 
 const ConversationsList = ({ conversations, onSelectConversation }) => (
-   <div className="w-72 border-r border-gray-200 overflow-y-auto">
+   <div className="w-[400px] border-r border-gray-200 overflow-y-auto">
       {conversations.map((convo) => (
          <ConversationItem
             key={convo.id}
