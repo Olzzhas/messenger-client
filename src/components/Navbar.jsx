@@ -1,6 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import io from 'socket.io-client';
+const socket = io.connect('http://localhost:4000');
 
 const Navbar = () => {
+   const sendMessage = () => {
+      socket.emit('send_message', { message: 'Hello' });
+   };
+
+   useEffect(() => {
+      socket.on('receive_message', (data) => {
+         alert(data.message);
+      });
+   }, [socket]);
+
    return (
       <div className="flex items-center justify-between bg-white p-4 border-b border-gray-200">
          <div className="flex items-center">
@@ -11,7 +23,10 @@ const Navbar = () => {
             <span className="ml-4 text-gray-500 font-jakarta">
                Caesar last seen 5 min ago
             </span>
+            <input type="text" name="" id="" />
+            <button onClick={sendMessage}>SendMessage</button>
          </div>
+
          <div className="flex items-center w-[150px] justify-between">
             <button className="mr-4 text-gray-500 hover:text-gray-700">
                <svg

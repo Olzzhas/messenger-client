@@ -1,136 +1,22 @@
-// App.js
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Layout from './components/Layout';
 import Container from './components/Container';
-import Navbar from './components/Navbar';
 
-import ChatWindow from './components/ChatWindow';
-import UserInfoPanel from './components/UserInfoPanel';
-import ConversationsList from './components/ConversationList';
+import Main from './pages/Main';
+import { AuthContext } from './context/AuthContext';
+import { ChatContextProvider } from './context/ChatContext';
 
 function App() {
-   const [conversations, setConversations] = useState([
-      // Добавьте свои данные переписок
-      {
-         id: 1,
-         name: 'Maksat Baikadamov',
-         message: 'Have you been studying for exams?',
-         time: '10:36 PM',
-         active: true,
-         messages: [
-            {
-               sender: 'Maksat',
-               message: "What's up",
-               time: '10:36 PM',
-            },
-            {
-               sender: 'me',
-               message: 'Assalamualaikum!',
-               time: '10:38 AM',
-            },
-            {
-               sender: 'Maksat',
-               message: 'Well, there is this one girl...',
-               time: '8:54 AM',
-            },
-            {
-               sender: 'Caesar',
-               message: 'She has another fellow?',
-               time: '10:40 PM',
-            },
-            {
-               sender: 'me',
-               message: 'I don’t know, but a lot of boys like her',
-               time: '10:42 PM',
-            },
-         ],
-         user: {
-            avatar: 'https://via.placeholder.com/150',
-            name: 'Caesar',
-            bio: 'I like talk shows',
-         },
-      },
-      {
-         id: 2,
-         name: 'Caesar',
-         message: 'Handsome lad like you. There must be some special girl',
-         time: '10:36 PM',
-         active: true,
-         messages: [
-            {
-               sender: 'Caesar',
-               message:
-                  'Handsome lad like you. There must be some special girl',
-               time: '10:36 PM',
-            },
-            {
-               sender: 'me',
-               message: 'Come on, what’s her name?',
-               time: '4:38 AM',
-            },
-            {
-               sender: 'Caesar',
-               message: 'Well, there is this one girl...',
-               time: '8:54 AM',
-            },
-         ],
-         user: {
-            avatar: 'https://via.placeholder.com/150',
-            name: 'Caesar',
-            bio: 'I like talk shows',
-         },
-      },
-
-      // Другие переписки
-   ]);
-
-   const [selectedConversation, setSelectedConversation] = useState(
-      conversations[0],
-   );
-   const [showUserInfo, setShowUserInfo] = useState(false);
-
-   const handleSelectConversation = (id) => {
-      const conversation = conversations.find((convo) => convo.id === id);
-      setSelectedConversation(conversation);
-   };
-
-   const handleShowUserInfo = () => {
-      setShowUserInfo(true);
-   };
-
-   const handleCloseUserInfo = () => {
-      setShowUserInfo(false);
-   };
+   const { user } = useContext(AuthContext);
 
    return (
-      <Layout>
-         <Container>
-            <Navbar />
-            <div className="flex h-full">
-               <ConversationsList
-                  conversations={conversations}
-                  onSelectConversation={handleSelectConversation}
-               />
-               <div className="flex-1 relative">
-                  {selectedConversation && (
-                     <ChatWindow messages={selectedConversation.messages} />
-                  )}
-                  <button
-                     className="absolute top-4 right-4 text-2xl"
-                     onClick={handleShowUserInfo}
-                  >
-                     ...
-                  </button>
-               </div>
-               {showUserInfo && selectedConversation && (
-                  <UserInfoPanel
-                     user={selectedConversation.user}
-                     onClose={handleCloseUserInfo}
-                  />
-               )}
-            </div>
-         </Container>
-      </Layout>
+      <ChatContextProvider user={user}>
+         <Layout>
+            <Container>
+               <Main />
+            </Container>
+         </Layout>
+      </ChatContextProvider>
    );
 }
 
