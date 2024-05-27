@@ -5,6 +5,10 @@ import Container from './components/Container';
 import Main from './pages/Main';
 import { AuthContext } from './context/AuthContext';
 import { ChatContextProvider } from './context/ChatContext';
+import Login from './pages/Login';
+
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
    const { user } = useContext(AuthContext);
@@ -13,7 +17,12 @@ function App() {
       <ChatContextProvider user={user}>
          <Layout>
             <Container>
-               <Main />
+               <Routes>
+                  <Route element={<ProtectedRoute />}>
+                     <Route path="/" element={<Main />} />
+                  </Route>
+                  <Route path="/login" element={<Login />} />
+               </Routes>
             </Container>
          </Layout>
       </ChatContextProvider>

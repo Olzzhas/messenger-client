@@ -22,7 +22,7 @@ const ConversationItem = ({ name, message, time, active, onClick }) => {
             <div className="flex-grow px-4">
                <div className="font-[700] font-jakarta">{name}</div>
                <div className="text-sm text-gray-600 font-jakarta">
-                  {truncateMessage(message, 31)}
+                  {truncateMessage('sadsds', 31)}
                </div>
             </div>
             <div className="text-xs text-gray-400 font-jakarta">{time}</div>

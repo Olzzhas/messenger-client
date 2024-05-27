@@ -6,7 +6,6 @@ import UserInfoPanel from '../components/UserInfoPanel';
 
 const Main = () => {
    const [conversations, setConversations] = useState([
-      // Добавьте свои данные переписок
       {
          id: 1,
          name: 'Maksat Baikadamov',
