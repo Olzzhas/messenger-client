@@ -20,6 +20,9 @@ export const ChatContextProvider = ({ children, user }) => {
    const [newMessage, setNewMessage] = useState(null);
    const [socket, setSocket] = useState(null);
    const [onlineUsers, setOnlineUsers] = useState(null);
+   const [allMessages, setAllMessages] = useState([]);
+   const [isAllMessagesLoading, setIsAllMessagesLoading] = useState(false);
+   const [allMessagesError, setAllMessagesError] = useState(null);
 
    useEffect(() => {
       const newSocket = io('http://localhost:4000');
@@ -133,6 +136,25 @@ export const ChatContextProvider = ({ children, user }) => {
       getMessages();
    }, [currentChat]);
 
+   useEffect(() => {
+      const getAllMessages = async () => {
+         setIsAllMessagesLoading(true);
+         setAllMessagesError(null);
+
+         const response = await getRequest(`/chat/`);
+
+         setIsAllMessagesLoading(false);
+
+         if (response.error) {
+            return setAllMessagesError(response);
+         }
+
+         setAllMessages(response);
+      };
+
+      getAllMessages();
+   }, []);
+
    const updateCurrentChat = useCallback((chat) => {
       localStorage.setItem('currentChat', JSON.stringify(chat));
       setCurrentChat(chat);
@@ -196,6 +218,9 @@ export const ChatContextProvider = ({ children, user }) => {
             sendTextMessageError,
             newMessage,
             onlineUsers,
+            allMessages,
+            allMessagesError,
+            isAllMessagesLoading,
          }}
       >
          {children}

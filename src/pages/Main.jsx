@@ -76,8 +76,6 @@ const Main = () => {
             bio: 'I like talk shows',
          },
       },
-
-      // Другие переписки
    ]);
 
    const [selectedConversation, setSelectedConversation] = useState(

@@ -8,7 +8,6 @@ export const postRequest = async (url, body) => {
 
       return response.data;
    } catch (error) {
-      alert(error);
       throw error;
    }
 };
