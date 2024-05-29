@@ -3,16 +3,14 @@ import ConversationItem from './ConversationItem';
 import { ChatContext } from '../context/ChatContext';
 import { AuthContext } from '../context/AuthContext';
 
-const ConversationsList = ({ conversations, onSelectConversation }) => {
+const ConversationsList = ({ onSelectConversation }) => {
    const { user, userLoading } = useContext(AuthContext);
 
    const {
       userChats,
       isUserChatsLoading,
-      messages,
       isMessagesLoading,
       updateCurrentChat,
-      currentChat,
       allMessages,
       IsAllMessagesLoading,
    } = useContext(ChatContext);
@@ -50,6 +48,7 @@ const ConversationsList = ({ conversations, onSelectConversation }) => {
 
             return (
                <ConversationItem
+                  user={user}
                   key={convo.id}
                   interlocutorId={interlocutorId}
                   name={convo.name}

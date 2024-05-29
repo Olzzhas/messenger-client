@@ -10,9 +10,7 @@ export const ChatContextProvider = ({ children, user }) => {
    const [isUserChatsLoading, setIsUserChatsLoading] = useState(false);
    const [userChatsError, setUserChatsError] = useState(null);
    const [potentialChats, setPotentialChats] = useState([]);
-   const [currentChat, setCurrentChat] = useState(
-      JSON.parse(localStorage.getItem('currentChat')),
-   );
+   const [currentChat, setCurrentChat] = useState(null);
    const [messages, setMessages] = useState(null);
    const [isMessagesLoading, setIsMessagesLoading] = useState(false);
    const [messagesError, setMessagesError] = useState(null);
@@ -32,6 +30,13 @@ export const ChatContextProvider = ({ children, user }) => {
          newSocket.disconnect();
       };
    }, [user]);
+
+   useEffect(() => {
+      const storedChat = localStorage.getItem('currentChat');
+      if (storedChat) {
+         setCurrentChat(JSON.parse(storedChat));
+      }
+   }, []);
 
    // add online users
    useEffect(() => {
@@ -158,7 +163,6 @@ export const ChatContextProvider = ({ children, user }) => {
    const updateCurrentChat = useCallback((chat) => {
       localStorage.setItem('currentChat', JSON.stringify(chat));
       setCurrentChat(chat);
-      // console.log(currentChat);
    }, []);
 
    const sendTextMessage = useCallback(
