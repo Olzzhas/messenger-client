@@ -7,7 +7,7 @@ import { AuthContext } from './context/AuthContext';
 import { ChatContextProvider } from './context/ChatContext';
 import Login from './pages/Login';
 
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {

@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { AuthContext } from '../context/AuthContext';
 const socket = io.connect('http://localhost:4000');
 
-const Navbar = () => {
+const Navbar = ({ handleShowUserInfo }) => {
    const { user, userLoading } = useContext(AuthContext);
 
    const sendMessage = () => {
@@ -52,7 +52,10 @@ const Navbar = () => {
                   />
                </svg>
             </button>
-            <button className="mr-4 text-gray-500 hover:text-gray-700">
+            <button
+               onClick={handleShowUserInfo}
+               className="mr-4 text-gray-500 hover:text-gray-700"
+            >
                <svg
                   width="4"
                   height="16"

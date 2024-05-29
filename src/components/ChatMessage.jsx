@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-const ChatMessage = ({ sender, message, time }) => {
+const ChatMessage = ({ sender, message, time, interlocutor }) => {
    const { user, userLoading } = useContext(AuthContext);
 
    if (userLoading) {
@@ -47,7 +47,7 @@ const ChatMessage = ({ sender, message, time }) => {
          <div className="mb-4 flex items-end">
             <div className={`font-semibold text-left flex items-end`}>
                <div className="w-[36px] h-[36px] overflow-hidden rounded-full mr-4">
-                  <img src="/ava/maksat.png" alt="ava" />
+                  <img src={interlocutor.image_url} alt="ava" />
                </div>
 
                <div className="ml-2">

@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import ConversationItem from './ConversationItem';
 import { ChatContext } from '../context/ChatContext';
-import { AuthContext } from '../context/AuthContext';
 
-const ConversationsList = ({
+export const ConversationsList = ({
    onSelectConversation,
    userChats,
    allMessages,
@@ -27,7 +26,8 @@ const ConversationsList = ({
    };
 
    return (
-      <div className="w-[400px] bg-white border-r border-gray-200 overflow-y-auto shadow-lg ">
+      <div className="w-[400px] h-[1000px] bg-[#e5e5e5] border-r border-l border-gray-200 overflow-y-auto relative">
+         <div className="absolute right-0 top-0 h-full w-5 shadow-[-5px_0_5px_-5px_rgba(0,0,0,0.2)]"></div>
          {userChats.map((convo) => {
             const lastMessage = getLastMessage(convo._id);
 
@@ -52,5 +52,3 @@ const ConversationsList = ({
       </div>
    );
 };
-
-export default ConversationsList;

@@ -11,15 +11,15 @@ const Main = () => {
    const { userChats, isUserChatsLoading, allMessages, IsAllMessagesLoading } =
       useContext(ChatContext);
 
-   const [conversations, setConversations] = useState([userChats]);
-
    const [selectedConversation, setSelectedConversation] = useState(
-      conversations[0],
+      userChats[0],
    );
+
+   console.log('asd', selectedConversation);
    const [showUserInfo, setShowUserInfo] = useState(false);
 
    const handleSelectConversation = (id) => {
-      const conversation = conversations.find((convo) => convo.id === id);
+      const conversation = userChats.find((convo) => convo.id === id);
       setSelectedConversation(conversation);
    };
 
@@ -37,7 +37,7 @@ const Main = () => {
 
    return (
       <>
-         <Navbar />
+         <Navbar handleShowUserInfo={handleShowUserInfo} />
          <div className="flex h-full">
             <ConversationsList
                userChats={userChats}
@@ -46,17 +46,11 @@ const Main = () => {
                onSelectConversation={handleSelectConversation}
             />
             <div className="flex-1 relative">
-               {selectedConversation && <ChatWindow />}
-               {/* <button
-                  className="absolute top-4 right-4 text-2xl"
-                  onClick={handleShowUserInfo}
-               >
-                  ...
-               </button> */}
+               {selectedConversation && <ChatWindow user={user} />}
             </div>
             {showUserInfo && selectedConversation && (
                <UserInfoPanel
-                  user={selectedConversation.user}
+                  conv={selectedConversation}
                   onClose={handleCloseUserInfo}
                />
             )}
