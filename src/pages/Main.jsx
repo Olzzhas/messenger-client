@@ -7,7 +7,9 @@ import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 
 const Main = () => {
-   const { userChats, isUserChatsLoading } = useContext(ChatContext);
+   const { user, userLoading } = useContext(AuthContext);
+   const { userChats, isUserChatsLoading, allMessages, IsAllMessagesLoading } =
+      useContext(ChatContext);
 
    const [conversations, setConversations] = useState([userChats]);
 
@@ -29,7 +31,7 @@ const Main = () => {
       setShowUserInfo(false);
    };
 
-   if (isUserChatsLoading) {
+   if (isUserChatsLoading || IsAllMessagesLoading || userLoading) {
       return <span>loading</span>;
    }
 
@@ -38,16 +40,19 @@ const Main = () => {
          <Navbar />
          <div className="flex h-full">
             <ConversationsList
+               userChats={userChats}
+               allMessages={allMessages}
+               user={user}
                onSelectConversation={handleSelectConversation}
             />
             <div className="flex-1 relative">
                {selectedConversation && <ChatWindow />}
-               <button
+               {/* <button
                   className="absolute top-4 right-4 text-2xl"
                   onClick={handleShowUserInfo}
                >
                   ...
-               </button>
+               </button> */}
             </div>
             {showUserInfo && selectedConversation && (
                <UserInfoPanel

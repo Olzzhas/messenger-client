@@ -30,7 +30,7 @@ const ChatMessage = ({ sender, message, time }) => {
          <div className="mb-4 flex justify-end">
             <div className={`font-semibold text-right flex items-end`}>
                <div className="mr-2">
-                  <div className="p-4 rounded-tr-xl rounded-tl-xl rounded-bl-xl bg-[#EEF1F4]">
+                  <div className="p-4 rounded-tr-xl text-left rounded-tl-xl rounded-bl-xl bg-[#EEF1F4] max-w-[450px]">
                      <span className="font-[400] font-jakarta">{message}</span>
                   </div>
                   <div className="text-xs text-gray-400">

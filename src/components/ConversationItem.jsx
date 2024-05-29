@@ -41,12 +41,15 @@ const ConversationItem = ({
             <div className="w-[48px] h-[48px] overflow-hidden rounded-full">
                <img src={interlocutor.image_url} alt="ava" />
             </div>
-            <div className="flex-grow px-4">
-               <div className="font-[700] font-jakarta">
-                  {interlocutor.name}
+            <div className="flex-grow px-4 items-center align-middle">
+               <div className="flex justify-between">
+                  <div className="font-[700] font-jakarta">
+                     {interlocutor.name}
+                  </div>
+                  <span className="text-[14px] text-[#8FA0AF]">10:34 PM</span>
                </div>
-               <div className="text-sm text-gray-600 font-jakarta">
-                  {truncateMessage(message, 31)}
+               <div className="text-sm font-[300] text-gray-600 font-jakarta">
+                  {truncateMessage(message, 30)}
                </div>
             </div>
             <div className="text-xs text-gray-400 font-jakarta">{time}</div>

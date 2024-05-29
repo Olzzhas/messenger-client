@@ -3,26 +3,13 @@ import ConversationItem from './ConversationItem';
 import { ChatContext } from '../context/ChatContext';
 import { AuthContext } from '../context/AuthContext';
 
-const ConversationsList = ({ onSelectConversation }) => {
-   const { user, userLoading } = useContext(AuthContext);
-
-   const {
-      userChats,
-      isUserChatsLoading,
-      isMessagesLoading,
-      updateCurrentChat,
-      allMessages,
-      IsAllMessagesLoading,
-   } = useContext(ChatContext);
-
-   if (
-      isUserChatsLoading ||
-      isMessagesLoading ||
-      IsAllMessagesLoading ||
-      userLoading
-   ) {
-      return console.log('loading chats...');
-   }
+const ConversationsList = ({
+   onSelectConversation,
+   userChats,
+   allMessages,
+   user,
+}) => {
+   const { updateCurrentChat } = useContext(ChatContext);
 
    const getLastMessage = (chatId) => {
       const filteredMessages = allMessages.filter(

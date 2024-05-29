@@ -41,7 +41,7 @@ export const ChatContextProvider = ({ children, user }) => {
    // add online users
    useEffect(() => {
       if (socket === null) return;
-      socket.emit('addNewUser', user?._id);
+      socket.emit('addNewUser', user?.user.id);
       socket.on('getOnlineUsers', (res) => {
          setOnlineUsers(res);
       });
@@ -166,17 +166,14 @@ export const ChatContextProvider = ({ children, user }) => {
    }, []);
 
    const sendTextMessage = useCallback(
-      async (textMessage, sender, currentChatId, setTextMessage) => {
+      async (textMessage, sender, currentChatId) => {
          if (!textMessage) return console.log('You must type something...');
 
-         const response = await postRequest(
-            `/chat/message`,
-            JSON.stringify({
-               chatId: currentChatId,
-               senderId: sender._id,
-               text: textMessage,
-            }),
-         );
+         const response = await postRequest(`/chat/message`, {
+            chatId: currentChatId,
+            senderId: sender.user.id,
+            text: textMessage,
+         });
 
          if (response.error) {
             return setSendTextMessageError(response);
@@ -184,7 +181,6 @@ export const ChatContextProvider = ({ children, user }) => {
 
          setNewMessage(response);
          setMessages((prev) => [...prev, response]);
-         setTextMessage('');
       },
       [],
    );

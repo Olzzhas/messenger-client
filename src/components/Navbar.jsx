@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import io from 'socket.io-client';
+import { AuthContext } from '../context/AuthContext';
 const socket = io.connect('http://localhost:4000');
 
 const Navbar = () => {
+   const { user, userLoading } = useContext(AuthContext);
+
    const sendMessage = () => {
       socket.emit('send_message', { message: 'Hello' });
    };
@@ -13,6 +16,10 @@ const Navbar = () => {
       });
    }, [socket]);
 
+   if (userLoading) {
+      return;
+   }
+
    return (
       <div className="flex items-center justify-between bg-white p-4 border-b border-gray-200">
          <div className="flex items-center">
@@ -20,11 +27,12 @@ const Navbar = () => {
                <img src="/img/logo.png" className="mr-2" />
                <span className="text-gray-700 font-jakartad">E-Message</span>
             </div>
-            <span className="ml-4 text-gray-500 font-jakarta">
+            <span
+               style={{ marginLeft: '16rem' }}
+               className=" text-gray-500 font-jakarta"
+            >
                Caesar last seen 5 min ago
             </span>
-            <input type="text" name="" id="" />
-            <button onClick={sendMessage}>SendMessage</button>
          </div>
 
          <div className="flex items-center w-[150px] justify-between">
@@ -68,7 +76,7 @@ const Navbar = () => {
             </button>
 
             <img
-               src="https://via.placeholder.com/150"
+               src={user.user.image_url}
                alt="User"
                className="h-8 w-8 rounded-full object-cover"
             />
