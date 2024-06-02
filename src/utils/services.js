@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const baseUrl = 'http://localhost:4000';
+export const baseUrl = 'https://messenger-node.onrender.com';
+// export const baseUrl = 'http://localhost:4000';
 
 export const postRequest = async (url, body) => {
    try {
