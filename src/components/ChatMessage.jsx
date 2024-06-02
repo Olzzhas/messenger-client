@@ -103,7 +103,14 @@ const ChatMessage = ({ sender, message, time, interlocutor, fileUrl }) => {
          <div className="mb-4 flex items-end">
             <div className="font-semibold text-left flex items-end">
                <div className="w-[36px] h-[36px] overflow-hidden rounded-full mr-4">
-                  <img src={interlocutor.image_url} alt="ava" />
+                  <img
+                     src={
+                        interlocutor.image_url
+                           ? interlocutor.image_url
+                           : '/ava/user.png'
+                     }
+                     alt="ava"
+                  />
                </div>
                <div className="ml-2">
                   {renderMessageContent()}

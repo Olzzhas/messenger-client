@@ -14,9 +14,8 @@ export const AuthContextProvider = ({ children }) => {
    const [registerInfo, setRegisterInfo] = useState({
       email: '',
       password: '',
-      username: '',
       name: '',
-      lastname: '',
+      image_url: '',
    });
    const [authorizeInfo, setAuthorizeInfo] = useState({
       email: '',
@@ -42,43 +41,50 @@ export const AuthContextProvider = ({ children }) => {
       setIsRegisterLoading(true);
       setRegisterError(null);
 
-      const response = await postRequest(
-         '/user/create',
-         JSON.stringify(registerInfo),
-      );
+      console.log(registerInfo);
 
-      setIsRegisterLoading(false);
+      try {
+         const response = await postRequest('/user/create', registerInfo);
 
-      if (response.error) {
-         setRegisterError(response);
-         return;
+         setIsRegisterLoading(false);
+
+         if (response.error) {
+            setRegisterError(response);
+            return;
+         }
+
+         localStorage.setItem('user', JSON.stringify(response));
+         setUser(response);
+         navigate('/');
+      } catch (error) {
+         if (error.response.data.message == 'Validation failed') {
+            setRegisterError('Invalid email');
+            return;
+         }
+         setRegisterError(error.response.data.message);
       }
-
-      localStorage.setItem('user', JSON.stringify(response));
-      setUser(response);
-      navigate('/');
    }, [registerInfo, navigate]);
 
    const authorizeUser = useCallback(async () => {
       setIsAuthorizeLoading(true);
       setAuthorizeError(null);
 
-      const response = await postRequest(
-         `/user/login`,
-         authorizeInfo,
-         // JSON.stringify(authorizeInfo),
-      );
+      try {
+         const response = await postRequest(`/user/login`, authorizeInfo);
 
-      setIsAuthorizeLoading(false);
+         setIsAuthorizeLoading(false);
 
-      if (response.error) {
-         setAuthorizeError(response);
-         return;
+         if (response.error) {
+            setAuthorizeError(response);
+            return;
+         }
+
+         localStorage.setItem('user', JSON.stringify(response));
+         setUser(response);
+         navigate('/');
+      } catch (error) {
+         setAuthorizeError(error.response.data.message);
       }
-
-      localStorage.setItem('user', JSON.stringify(response));
-      setUser(response);
-      navigate('/');
    }, [authorizeInfo, navigate]);
 
    const updateAuthorizeInfo = useCallback((info) => {
@@ -97,6 +103,7 @@ export const AuthContextProvider = ({ children }) => {
             authorizeUser,
             authorizeError,
             userLoading,
+            registerInfo,
          }}
       >
          {children}

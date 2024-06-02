@@ -22,6 +22,7 @@ const MessageInput = ({ user }) => {
 
          try {
             const response = await axios.post(
+               // 'https://messenger-node.onrender.com/storage/upload',
                'http://localhost:4000/storage/upload',
                formData,
                {

@@ -24,8 +24,8 @@ export const ChatContextProvider = ({ children, user }) => {
    const [allMessagesError, setAllMessagesError] = useState(null);
 
    useEffect(() => {
-      const newSocket = io('https://messenger-node.onrender.com/');
-      // const newSocket = io('http://localhost:4000');
+      // const newSocket = io('https://messenger-node.onrender.com/');
+      const newSocket = io('http://localhost:4000');
       setSocket(newSocket);
 
       return () => {
@@ -33,12 +33,12 @@ export const ChatContextProvider = ({ children, user }) => {
       };
    }, [user]);
 
-   useEffect(() => {
-      const storedChat = localStorage.getItem('currentChat');
-      if (storedChat) {
-         setCurrentChat(JSON.parse(storedChat));
-      }
-   }, []);
+   // useEffect(() => {
+   //    const storedChat = localStorage.getItem('currentChat');
+   //    if (storedChat) {
+   //       setCurrentChat(JSON.parse(storedChat));
+   //    }
+   // }, []);
 
    // add online users
    useEffect(() => {

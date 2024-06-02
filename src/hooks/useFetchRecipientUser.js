@@ -12,11 +12,11 @@ export const useFetchRecipientUser = (user, chat) => {
       const getUser = async () => {
          if (recipientId) return null;
 
-         // const response = await getRequest(`/user/certain/${recipientId}`);
+         const response = await getRequest(`/user/certain/${recipientId}`);
 
-         const response = await axios.get(
-            `http://localhost:4000/user/certain/${recipientId}`,
-         );
+         // const response = await axios.get(
+         //    `https://messenger-node.onrender.com/user/certain/${recipientId}`,
+         // );
          console.log('asdaisbdahsbd', response);
 
          if (response.error) {
