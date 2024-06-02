@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
    const { user, userLoading } = useContext(AuthContext);
 
    if (userLoading) {
-      return console.log('Loading...');
+      return;
    }
 
    return user ? <Outlet /> : <Navigate to="/login" />;

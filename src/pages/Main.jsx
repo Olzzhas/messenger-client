@@ -15,7 +15,6 @@ const Main = () => {
       userChats[0],
    );
 
-   console.log('asd', selectedConversation);
    const [showUserInfo, setShowUserInfo] = useState(false);
 
    const handleSelectConversation = (id) => {

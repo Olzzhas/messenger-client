@@ -1,15 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { AuthContext } from '../context/AuthContext';
+import WeatherPopup from './WeatherPopup';
 const socket = io.connect('http://localhost:4000');
 
 const Navbar = ({ handleShowUserInfo }) => {
    const { user, userLoading } = useContext(AuthContext);
 
-   const sendMessage = () => {
-      socket.emit('send_message', { message: 'Hello' });
-   };
+   const [showWeatherPopup, setShowWeatherPopup] = useState(false);
 
+   const toggleWeatherPopup = () => {
+      setShowWeatherPopup(!showWeatherPopup);
+   };
    useEffect(() => {
       socket.on('receive_message', (data) => {
          alert(data.message);
@@ -36,6 +38,12 @@ const Navbar = ({ handleShowUserInfo }) => {
          </div>
 
          <div className="flex items-center w-[150px] justify-between">
+            <button
+               onClick={toggleWeatherPopup}
+               className="mr-4 text-gray-500 hover:text-gray-700"
+            >
+               Show Weather
+            </button>
             <button className="mr-4 text-gray-500 hover:text-gray-700">
                <svg
                   width="22"
@@ -84,6 +92,8 @@ const Navbar = ({ handleShowUserInfo }) => {
                className="h-8 w-8 rounded-full object-cover"
             />
          </div>
+
+         {showWeatherPopup && <WeatherPopup onClose={toggleWeatherPopup} />}
       </div>
    );
 };

@@ -10,6 +10,7 @@ export const ChatContextProvider = ({ children, user }) => {
    const [isUserChatsLoading, setIsUserChatsLoading] = useState(false);
    const [userChatsError, setUserChatsError] = useState(null);
    const [potentialChats, setPotentialChats] = useState([]);
+   const [potentialChatsLoading, setPotentialChatsLoading] = useState(false);
    const [currentChat, setCurrentChat] = useState(null);
    const [messages, setMessages] = useState(null);
    const [isMessagesLoading, setIsMessagesLoading] = useState(false);
@@ -45,6 +46,8 @@ export const ChatContextProvider = ({ children, user }) => {
       socket.on('getOnlineUsers', (res) => {
          setOnlineUsers(res);
       });
+
+      console.log('Online users: ', onlineUsers);
    }, [socket]);
 
    // send message
@@ -75,6 +78,7 @@ export const ChatContextProvider = ({ children, user }) => {
 
    useEffect(() => {
       const getUsers = async () => {
+         setPotentialChatsLoading(true);
          const response = await getRequest(`/user/all`);
 
          if (response.error) {
@@ -95,6 +99,7 @@ export const ChatContextProvider = ({ children, user }) => {
             return !isChatCreated;
          });
          setPotentialChats(pChats);
+         setPotentialChatsLoading(false);
       };
 
       getUsers();
@@ -107,7 +112,6 @@ export const ChatContextProvider = ({ children, user }) => {
             setUserChatsError(null);
 
             const response = await getRequest(`/chat/${user.user.id}`);
-            console.log(response);
 
             setIsUserChatsLoading(false);
 
@@ -116,6 +120,10 @@ export const ChatContextProvider = ({ children, user }) => {
             }
 
             setUserChats(response);
+
+            if (currentChat === null) {
+               setCurrentChat(response[0]);
+            }
          }
       };
 
@@ -166,14 +174,17 @@ export const ChatContextProvider = ({ children, user }) => {
    }, []);
 
    const sendTextMessage = useCallback(
-      async (textMessage, sender, currentChatId) => {
+      async (textMessage, sender, currentChatId, fileUrl) => {
          if (!textMessage) return console.log('You must type something...');
 
          const response = await postRequest(`/chat/message`, {
             chatId: currentChatId,
             senderId: sender.user.id,
             text: textMessage,
+            file_url: fileUrl,
          });
+
+         console.log('sent');
 
          if (response.error) {
             return setSendTextMessageError(response);
@@ -186,13 +197,10 @@ export const ChatContextProvider = ({ children, user }) => {
    );
 
    const createChat = useCallback(async (firstId, secondId) => {
-      const response = await postRequest(
-         `/chat`,
-         JSON.stringify({
-            firstId,
-            secondId,
-         }),
-      );
+      const response = await postRequest(`/chat`, {
+         firstId,
+         secondId,
+      });
 
       if (response.error) {
          return console.log('Error creating chat', response);
@@ -208,6 +216,7 @@ export const ChatContextProvider = ({ children, user }) => {
             isUserChatsLoading,
             userChatsError,
             potentialChats,
+            potentialChatsLoading,
             updateCurrentChat,
             createChat,
             currentChat,
